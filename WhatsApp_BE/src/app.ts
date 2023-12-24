@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import morgan from 'morgan';
 import expressMongoSanitize from 'express-mongo-sanitize'
@@ -7,6 +7,8 @@ import fileUpload from 'express-fileupload'
 import helmet from 'helmet';
 import compression from 'compression'
 import cors from 'cors';
+import createHttpError from 'http-errors';
+import routes from "./routes";
 
 dotenv.config();
 const app: Express = express();
@@ -15,7 +17,7 @@ const app: Express = express();
 app.use(morgan('dev')); // Logs of request
 app.use(helmet())
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(expressMongoSanitize())
 app.use(cookieParser())
 app.use(compression()) // gzip body of request
@@ -24,15 +26,22 @@ app.use(fileUpload({
 }))
 app.use(cors())
 
-app.get("/", (req: Request, res: Response) => {
-    res.send("Express + TypeScript Server");
-});
+//routes
+app.use("/api/v1", routes)
 
-app.post("/test", (req: Request, res: Response) => {
-    res.send(req.body);
-});
+app.use(async (req: Request, res: Response, next: NextFunction) => {
+    next(createHttpError.NotFound("This route doesn't exist"))
+})
 
-
+app.use(async (err: any, req: Request, res: Response, next: NextFunction) => {
+    res.status(err.status || 500)
+    res.send({
+        error: {
+            status: err.status || 500,
+            message: err.message
+        }
+    })
+})
 
 
 export default app;

@@ -1,4 +1,28 @@
 WhatsApp_BE/.env
 WhatsApp_BE/node_modules
 
+
 WhatsApp_BE/src/logs
+
+
+whatsapp-fe/node_modules
+
+whatsapp-fe/.pnp
+whatsapp-fe/.pnp.js
+
+# testing
+whatsapp-fe/coverage
+
+# production
+whatsapp-fe/build
+
+# misc
+whatsapp-fe/.DS_Store
+whatsapp-fe/.env.local
+whatsapp-fe/.env.development.local
+whatsapp-fe/.env.test.local
+whatsapp-fe/.env.production.local
+
+whatsapp-fe/npm-debug.log*
+whatsapp-fe/yarn-debug.log*
+whatsapp-fe/yarn-error.log*

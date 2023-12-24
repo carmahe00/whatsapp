@@ -13,7 +13,8 @@ export const logging = winston.createLogger({
     process.env.NODE_ENV === "development"
     ? winston.format.colorize()
     : winston.format.uncolorize(),
-    winston.format.splat()
+    winston.format.splat(),
+    winston.format.timestamp(),
   ),
   transports: [
     new winston.transports.File({
