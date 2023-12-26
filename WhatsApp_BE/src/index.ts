@@ -2,6 +2,7 @@
 
 
 import app from "./app";
+import 'dotenv/config'
 import { createServer } from 'http';
 import { logging } from "./configs/logger";
 const { DATABASE_URL } = process.env;
@@ -13,6 +14,7 @@ const httpServer = createServer(app);
 
 
 const start = async () => {
+  console.log(process.env.NODE_ENV)
   const connectionMongo = await mongoose.connect(DATABASE_URL!, {
     dbName: "WHATSAPP"
   })

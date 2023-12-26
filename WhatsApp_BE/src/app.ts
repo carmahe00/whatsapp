@@ -1,5 +1,5 @@
 import express, { Express, Request, Response, NextFunction } from "express";
-import dotenv from "dotenv";
+
 import morgan from 'morgan';
 import expressMongoSanitize from 'express-mongo-sanitize'
 import cookieParser from 'cookie-parser'
@@ -10,7 +10,6 @@ import cors from 'cors';
 import createHttpError from 'http-errors';
 import routes from "./routes";
 
-dotenv.config();
 const app: Express = express();
 
 
@@ -34,6 +33,8 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
 })
 
 app.use(async (err: any, req: Request, res: Response, next: NextFunction) => {
+    if (!err.status)
+        next()
     res.status(err.status || 500)
     res.send({
         error: {
