@@ -1,7 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
-
-export interface InitialStateProp{
+import axios, { AxiosError } from "axios";
+const AUTH_ENDPOINT = `${process.env.EN_APP_API_ENDPOINT}/auth`
+export interface InitialStateProp {
     user: {
         id: string;
         name: string;
@@ -14,10 +15,10 @@ export interface InitialStateProp{
     error: string;
 }
 
-const initialState:InitialStateProp = {
+const initialState: InitialStateProp = {
     error: "",
     status: "",
-    user:{
+    user: {
         id: "",
         name: "John",
         email: "john@mail.com",
@@ -27,11 +28,32 @@ const initialState:InitialStateProp = {
     }
 };
 
+export const registerUser = createAsyncThunk("auth/register", async (values: any, { rejectWithValue }) => {
+    try {
+        const { data } = await axios.post(`${AUTH_ENDPOINT}/register`,{...values})
+        return data
+    } catch (error) {
+        const err = error as AxiosError<any>
+        console.log(err)
+        if (err.response)
+            return rejectWithValue(err.response.data.error.message)
+
+    }
+})
+
 export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        logout: (state)=>initialState
+        logout: (state) => initialState
+    },
+    extraReducers(builder){
+        builder.addCase(registerUser.pending, (state, action)=>{
+            state.status = "loading"
+        })
+        .addCase(registerUser.fulfilled, (state, action)=>{
+            state.status = "succeded"
+        })
     }
 })
 
