@@ -4,13 +4,13 @@ import { Password } from '../services/password.service';
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        require: [true, "Please provide your name"],
+        required: [true, "Please provide your name"],
     },
     email: {
         lowercase: [true],
         trim: [true],
         type: String,
-        require: [true, "Please provide your email address"],
+        required: [true, "Please provide your email address"],
         unique: [true, "This email address already exist"],
         validate: [validator.isEmail, "Email invalid"]
     },
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        require: [true, "Please provide your password"],
+        required: [true, "Please provide your password"],
         minLength: [6, "Please make your password is atleast 6 characters long"]
     }
 },{

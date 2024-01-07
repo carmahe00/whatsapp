@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Response } from 'express';
 import { body, cookie } from 'express-validator'
 
 import { login, logout, register, refreshToken } from '../controller/auth.controller';
@@ -11,7 +11,7 @@ authRouter.route("/register").post([
     body("email").trim().isEmail().withMessage('Not a valid e-mail address'),
     body("status").isLength({ max: 65 }).withMessage('Please make sure your status is less than 64 characters.'),
     body("name").trim().notEmpty().isLength({ min: 3, max: 25 }).withMessage('Please make sure your name is between 3 and 25 characters.'),
-    body("password").trim().notEmpty().isLength({ min: 6, max: 125 }).withMessage('Please make sure your name is between 6 and 125 characters.'),
+    body("password").trim().notEmpty().isLength({ min: 6, max: 125 }).withMessage('Please make sure your password is between 6 and 125 characters.'),
     validationResultRequest
 ], register)
 authRouter.route("/login").post([

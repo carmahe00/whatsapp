@@ -1,10 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import createHttpError from 'http-errors';
-import jwt from 'jsonwebtoken'
-import { logging } from "../configs/logger";
+import jwt from 'jsonwebtoken';
+export interface UserToken {
+    userId: string;
+    iat:    number;
+    exp:    number;
+}
+
 declare global {
     interface AuthenticatedRequest extends Request {
-        user?: any;
+        user?: UserToken;
     }
 }
 export default async function (req: AuthenticatedRequest, res: Response, next: NextFunction) {
@@ -17,7 +22,8 @@ export default async function (req: AuthenticatedRequest, res: Response, next: N
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
         if (err)
             next(createHttpError.Unauthorized("Not Authorized"))
-        req.user = payload
+        console.log(typeof payload)
+        req.user = payload as UserToken
         next()
     })
 }

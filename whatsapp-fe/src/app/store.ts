@@ -11,7 +11,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 
 const rootReducer = combineReducers({
-    user: userSlice
+    user: userSlice,
 })
 
 

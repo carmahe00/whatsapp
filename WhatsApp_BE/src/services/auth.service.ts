@@ -1,7 +1,6 @@
 import { UserModel } from "../models"
 import createHttpError from 'http-errors';
 import { Password } from "./password.service";
-import { logging } from "../configs/logger";
 interface Props { name: string, email: string, picture: string, status: string, password: string }
 
 export const createUser = async (params: Props) => {

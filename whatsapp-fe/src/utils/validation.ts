@@ -15,3 +15,8 @@ export const signUpSchema = Yup.object({
             message: "Password must be have 6 characters, lowercase, uppercase and special characters."
         })
 })
+
+export const signInSchema = Yup.object({
+    email: Yup.string().required("Email is required").email("Provide valid email."),
+    password: Yup.string().required("Password is required")
+})
