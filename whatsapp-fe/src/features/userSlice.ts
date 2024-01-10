@@ -20,10 +20,10 @@ const initialState: InitialStateProp = {
     status: "",
     user: {
         id: "",
-        name: "John",
-        email: "john@mail.com",
+        name: "",
+        email: "",
         picture: "",
-        status: "active",
+        status: "",
         acces_token: "",
     }
 };
@@ -34,6 +34,7 @@ export const registerUser = createAsyncThunk("auth/register", async (values: any
         return data
     } catch (error) {
         const err = error as AxiosError<any>
+        console.log(err)
         if (err.response && typeof err.response.data.error.message)
             return rejectWithValue(err.response.data.error.message as string)
         else if (err.response)
@@ -58,7 +59,18 @@ export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        logout: (state) => initialState,
+        logout: (state) => {
+            state.error = "";
+                state.status = "";
+                state.user = {
+                    id: "",
+                    name: "",
+                    email: "",
+                    picture: "",
+                    status: "",
+                    acces_token: "",
+                }
+        },
         changeStatus: (state, action) => {
             state.status = action.payload
         }

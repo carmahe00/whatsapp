@@ -7,11 +7,13 @@ import {
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import chatSlice from "../features/chatSlice";
 
 
 
 const rootReducer = combineReducers({
     user: userSlice,
+    chat: chatSlice
 })
 
 

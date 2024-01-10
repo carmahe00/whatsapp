@@ -4,7 +4,7 @@ import { createConversation, doesExistConversation, getConversations, populateCo
 import { findUser } from "../services/user.service";
 
 declare global {
-    interface AuthenticatedRequest extends Request {
+    export interface AuthenticatedRequest extends Request {
         user?: UserToken;
     }
 }
@@ -19,6 +19,7 @@ export const createOpenConversation = async (req: AuthenticatedRequest, res: Res
         let receiver_user = await findUser(receiver_id)
         let convoData={
             name: receiver_user.name,
+            pucture: receiver_user.picture,
             isGroup: false,
             users: [sender_id, receiver_id]
         }
@@ -36,6 +37,6 @@ export const getConversation =async (req: AuthenticatedRequest, res: Response, n
         const conversations = await getConversations(sender_id!)
         res.status(200).json(conversations)
     } catch (error) {
-        
+        console.log(error)
     }
 }

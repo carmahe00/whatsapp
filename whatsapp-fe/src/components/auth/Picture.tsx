@@ -35,7 +35,7 @@ const Picture = ({ readablePicture, setPicture, setReadablePicture }: Props) => 
     }
     return (
         <div className="mt-8 content-center dark:text-dark_text_1 space-y-1">
-            <label htmlFor="picture" className="text-small fond-bold tracking-wide">
+            <label htmlFor="Picture (Optional)" className="text-small fond-bold tracking-wide">
                 Picture (Optional)
             </label>
 

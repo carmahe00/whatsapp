@@ -5,6 +5,10 @@ const conversationSchema = new mongoose.Schema({
         type: String,
         required: [true, "Conversation name is required"],
     },
+    pucture:{
+        type:String,
+        required: true
+    },
     isGroup: {
         type: Boolean,
         required: true,
@@ -18,7 +22,7 @@ const conversationSchema = new mongoose.Schema({
     ],
     latestMessage:{
         type: mongoose.Types.ObjectId,
-        ref: "MessageModel"
+        ref: "Message"
     },
     admin:{
         type: mongoose.Types.ObjectId,
