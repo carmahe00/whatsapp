@@ -1,19 +1,25 @@
 // src/index.ts
-
-
 import app from "./app";
+import { Server } from 'socket.io'
 import 'dotenv/config'
 import { createServer } from 'http';
 import { logging } from "./configs/logger";
 const { DATABASE_URL } = process.env;
 import mongoose from 'mongoose';
+import WhatsAppSocket from "./socket/whats-app.socket";
 
 const port = process.env.PORT || 8000;
 const httpServer = createServer(app);
-
+const io = new Server(httpServer, { 
+  pingTimeout: 60000,
+  cors:{
+    origin: process.env.CLIENT_ENDPOINT
+  }
+ });
 
 
 const start = async () => {
+  new WhatsAppSocket(io)
   console.log(process.env.NODE_ENV)
   const connectionMongo = await mongoose.connect(DATABASE_URL!, {
     dbName: "WHATSAPP"

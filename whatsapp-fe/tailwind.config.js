@@ -8,6 +8,9 @@ module.exports = {
   darkMode:"class",
   theme: {
     extend: {
+      backgroundImage:{
+        "background-whatsapp": "url('/images/background-whatsapp.png')"
+      },
       colors: {
         dark_bg_1: "#111B21",
         dark_bg_2: "#202C33",

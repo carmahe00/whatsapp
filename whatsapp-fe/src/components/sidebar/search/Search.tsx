@@ -18,15 +18,12 @@ const Search = ({ searchLength, setsearchResult }: Props) => {
         
         // Add a null check for e.currentTarget
         if ((e.target as HTMLInputElement).value.length > 3 && (e.target as HTMLInputElement).value) {
-
-
             try {
                 const { data } = await axios.get(`${USER_ENDPOINT}?search=${(e.target as HTMLInputElement).value}`, {
                     headers: {
                         Authorization: `Bearer ${user.user.acces_token}`,
                     },
                 });
-                console.log(data)
                 setsearchResult(data);
             } catch (error) {
                 const err = error as AxiosError<any>;

@@ -2,13 +2,19 @@ import React, { useState } from 'react'
 import { SidebarHeader } from './sidebar-header'
 import { Notifications } from './notifications'
 import { Search, SearchResults } from './search'
-import { Conversations } from '../conversations'
+import { Conversations } from './conversations'
 import { User } from '../../common/common.inteface'
-
-const Sidebar = () => {
+interface Props {
+    onlineUsers: {
+        socketId: string;
+        userId: string;
+    }[]
+    typing?:string
+}
+const Sidebar = ({ onlineUsers, typing }:Props) => {
     const [searchResult, setsearchResult] = useState<User[]>([])
     return (
-        <div className='w-[40%] h-full select-none ' >
+        <div className='flex0030 max-w-[30%] h-full select-none ' >
             {/* Sidebar Header */}
             <SidebarHeader />
             {/* Notification */}
@@ -18,8 +24,8 @@ const Sidebar = () => {
 
 
             {searchResult.length > 0 ?
-                <SearchResults searchResult={searchResult}/> :
-                <Conversations />
+                <SearchResults searchResult={searchResult} setsearchResult={setsearchResult} /> :
+                <Conversations  onlineUsers={onlineUsers} typing={typing} />
             }
         </div>
     )

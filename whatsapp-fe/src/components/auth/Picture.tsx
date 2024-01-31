@@ -41,7 +41,7 @@ const Picture = ({ readablePicture, setPicture, setReadablePicture }: Props) => 
 
             {readablePicture ?
                 <>
-                    <img src={readablePicture as string} className="w-20 object-cover rounded-full" alt="Photo for profile user " />
+                    <img src={readablePicture as string} className="w-20 object-cover rounded-full" alt="profile user" />
                     <div
                         className="mt-20 py-2 w-20 dark:bg-dark_bg_3 text-xs font-bold rounded-md flex items-center justify-center cursor-pointer"
                         onClick={handleChangePic}

@@ -3,8 +3,9 @@ import { User } from '../../../common/common.inteface'
 import Contact from './Contact'
 interface Props {
     searchResult: User[]
+    setsearchResult:React.Dispatch<React.SetStateAction<User[]>>
 }
-const SearchResults = ({ searchResult }: Props) => {
+const SearchResults = ({ searchResult, setsearchResult }: Props) => {
     return (
         <div className='w-full convos scrollbar' >
             <div className="">
@@ -14,7 +15,7 @@ const SearchResults = ({ searchResult }: Props) => {
                 </div>
                 <ul>
                     {
-                        searchResult && searchResult.map((user, i) =><Contact contact={user} key={i} />)
+                        searchResult && searchResult.map((user, i) =><Contact contact={user} key={i} setsearchResult={setsearchResult} />)
                     }
                 </ul>
             </div>

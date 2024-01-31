@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     picture:{
         type: String,
-        default: "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png"
+        default: "https://res.cloudinary.com/dkd5jblv5/image/upload/v1675976806/Default_ProfilePicture_gjngnb.png"
     },
     status: {
         type: String,

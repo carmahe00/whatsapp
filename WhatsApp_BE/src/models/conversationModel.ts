@@ -5,7 +5,7 @@ const conversationSchema = new mongoose.Schema({
         type: String,
         required: [true, "Conversation name is required"],
     },
-    pucture:{
+    picture:{
         type:String,
         required: true
     },

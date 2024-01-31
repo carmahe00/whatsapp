@@ -19,7 +19,7 @@ export const createOpenConversation = async (req: AuthenticatedRequest, res: Res
         let receiver_user = await findUser(receiver_id)
         let convoData={
             name: receiver_user.name,
-            pucture: receiver_user.picture,
+            picture: receiver_user.picture,
             isGroup: false,
             users: [sender_id, receiver_id]
         }

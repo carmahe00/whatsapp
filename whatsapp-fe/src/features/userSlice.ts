@@ -2,15 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 import axios, { AxiosError } from "axios";
 const AUTH_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/auth`
+export interface User {
+    _id: string;
+    name: string;
+    email: string;
+    picture: string;
+    status: string;
+    acces_token: string;
+}
 export interface InitialStateProp {
-    user: {
-        id: string;
-        name: string;
-        email: string;
-        picture: string;
-        status: string;
-        acces_token: string;
-    };
+    user: User;
     status: "loading" | "succeded" | "failed" | "";
     error: string | [];
 }
@@ -19,7 +20,7 @@ const initialState: InitialStateProp = {
     error: "",
     status: "",
     user: {
-        id: "",
+        _id: "",
         name: "",
         email: "",
         picture: "",
@@ -63,7 +64,7 @@ export const userSlice = createSlice({
             state.error = "";
                 state.status = "";
                 state.user = {
-                    id: "",
+                    _id: "",
                     name: "",
                     email: "",
                     picture: "",
