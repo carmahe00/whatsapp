@@ -4,6 +4,7 @@ import { selectChat } from "../../../features/chatSlice";
 import { selectUser } from "../../../features/userSlice";
 import Message from "./Message";
 import Typing from "./Typing";
+import FileMessage from "./files/FileMessage";
 
 interface Props {
     typing?: string
@@ -28,9 +29,27 @@ const ChatMessages = ({ typing }: Props) => {
 
             <div className="scrollbar overflow_scrollbar overflow-auto py-2 px-[5%]">
                 {/* Messages */}
-                {messages && messages.map((msg, index) =>
-                    <Message message={msg} key={index} me={user._id === msg.sender._id} />
-                )}
+                {messages && messages.map((msg, index) => (
+                    <div key={index} >
+                        {/* Message Files */}
+                        {msg.files.length ?
+                            msg.files.map((file, index) =>
+                                <FileMessage
+                                    fileMessage={file}
+                                    key={index+msg._id}
+                                    message={msg}
+                                    me={user._id === msg.sender._id}
+                                />
+                            )
+                            : null}
+                        {/* Message Text */}
+                        {
+                            msg.message.length > 0 ?
+                                <Message message={msg} key={index} me={user._id === msg.sender._id} /> :
+                                null
+                        }
+                    </ div>
+                ))}
                 {typing === activeConversation._id && <Typing />}
                 <div className="mt-2" ref={endRef}></div>
             </div>

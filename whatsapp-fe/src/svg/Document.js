@@ -5,7 +5,7 @@ export default function DocumentIcon() {
       height="53"
       width="53"
       preserveAspectRatio="xMidYMid meet"
-      class=""
+      className=""
       version="1.1"
       x="0px"
       y="0px"
@@ -16,7 +16,7 @@ export default function DocumentIcon() {
           <circle id="document-SVGID_1_" cx="26.5" cy="26.5" r="25.5"></circle>
         </defs>
         <clipPath id="document-SVGID_2_"></clipPath>
-        <g clip-path="url(#document-SVGID_2_)">
+        <g clipPath="url(#document-SVGID_2_)">
           <path
             fill="#5157AE"
             d="M26.5-1.1C11.9-1.1-1.1,5.6-1.1,27.6h55.2C54,8.6,41.1-1.1,26.5-1.1z"

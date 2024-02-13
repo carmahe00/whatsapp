@@ -14,7 +14,7 @@ type Inputs = {
   password: string,
 }
 const LoginForm = () => {
-  const dispatchUser = useAppDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const {
     register,
@@ -25,8 +25,8 @@ const LoginForm = () => {
   })
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     let res
-    dispatchUser(changeStatus("loading"))
-    res = await dispatchUser(loginUser({ ...data }))
+    dispatch(changeStatus("loading"))
+    res = await dispatch(loginUser({ ...data }))
     if (res && res.payload.user) navigate("/")
   }
   const { status, error } = useAppSelector(rootState => selectUser(rootState));

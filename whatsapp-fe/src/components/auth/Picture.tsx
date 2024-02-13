@@ -11,7 +11,6 @@ const Picture = ({ readablePicture, setPicture, setReadablePicture }: Props) => 
     const [error, setError] = useState("")
     const handlePicture = (e: React.ChangeEvent<HTMLInputElement>) => {
         let pic = e.target.files![0]
-        console.log(pic.type)
         if (!pic.type.startsWith("image"))
             return setError(`${pic.name} format not supported.`)
         else if (pic.size > 1024 * 1024 * 5)

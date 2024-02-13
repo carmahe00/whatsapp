@@ -13,6 +13,7 @@ declare global {
 export const sendMessage = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     try {
         const user_id = req.user?.userId
+        
         const { message, convo_id, files } = req.body
         if ((!message && !files) || !convo_id) {
             logging.error("Invalid data pass into the request.")

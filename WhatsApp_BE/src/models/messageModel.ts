@@ -14,7 +14,10 @@ const messageSchema = new mongoose.Schema({
         type: ObjectId,
         ref: "Conversation"
     },
-    files: []
+    files: {
+        type: Array,
+        default: []
+    }
 },{
     collection: "messages",
     timestamps:true

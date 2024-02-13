@@ -7,19 +7,20 @@ import ChatMessages from './messages/ChatMessages'
 import { selectUser } from '../../features/userSlice';
 import { ChatActions } from './actions';
 import { checkOnlineStatus } from '../../utils/chat.util';
+import FilesPreview from './preview/files/FilesPreview';
 interface Props {
   onlineUsers: {
-      socketId: string;
-      userId: string;
+    socketId: string;
+    userId: string;
   }[]
-  typing?:string
+  typing?: string
 }
-const ChatContainer = ({ onlineUsers, typing }:Props) => {
+const ChatContainer = ({ onlineUsers, typing }: Props) => {
   const dispatch = useAppDispatch()
-  const { user } = useAppSelector(rootState => selectUser(rootState));
-  const { activeConversation } = useAppSelector(rootState => selectChat(rootState));
   // Memoize the dispatch function
   const memoizedDispatch = useCallback(dispatch, [dispatch])
+  const { user } = useAppSelector(rootState => selectUser(rootState));
+  const { activeConversation, files } = useAppSelector(rootState => selectChat(rootState));
   useEffect(() => {
 
     if (activeConversation._id && user.acces_token) {
@@ -32,13 +33,19 @@ const ChatContainer = ({ onlineUsers, typing }:Props) => {
   return (
     <div className="relative w-full  h-full border-l dark:border-l-dark_border_2 select-none overflow-hidden bg-center bg-[url('https://res.cloudinary.com/dmhcnhtng/image/upload/v1677358270/Untitled-1_copy_rpx8yb.jpg')] bg-cover bg-no-repeat" >
       {/* Container */}
-        
-        {/* Chat Header */}
-        <ChatHeader online={checkOnlineStatus(onlineUsers, user, activeConversation.users)} />
-        {/* Chat Message */}
-        <ChatMessages typing={typing} />
-        {/* Chat Actions */}
-        <ChatActions />
+
+      {/* Chat Header */}
+      <ChatHeader online={checkOnlineStatus(onlineUsers, user, activeConversation.users)} />
+      {
+        files.length > 0 ?
+          <FilesPreview /> :
+          <>
+            {/* Chat Message */}
+            <ChatMessages typing={typing} />
+            {/* Chat Actions */}
+            <ChatActions />
+          </>
+      }
     </div>
   )
 }

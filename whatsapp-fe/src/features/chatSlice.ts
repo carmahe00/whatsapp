@@ -15,6 +15,11 @@ export interface chatInterface {
     activeConversation: ConversationInterface ;
     notifications: never[];
     messages:Messages[]
+    files: {
+        imgData: string | ArrayBuffer | null | undefined;
+        file: File;
+        type: string;
+    }[]
 }
 const initialState:chatInterface = {
     status: "",
@@ -22,7 +27,8 @@ const initialState:chatInterface = {
     conversations: [],
     activeConversation: {} as ConversationInterface,
     notifications: [],
-    messages: []
+    messages: [],
+    files: []
 };
 export const chatSlice = createSlice({
     name: "chat",
@@ -47,6 +53,18 @@ export const chatSlice = createSlice({
             
             newConvo.unshift(conversation)
             state.conversations= newConvo
+        },
+        addFiles: (state, action)=>{
+            state.files = [...state.files, action.payload]
+        },
+        clearFiles: (state)=>{
+            state.files = []
+        },
+        removeFileFromFiles: (state, action) =>{
+            let index = action.payload
+            let files = [...state.files]
+            let fileToRemove = [files[index]]
+            state.files = files.filter((file) => !fileToRemove.includes(file))
         }
     },
     extraReducers(builder){
@@ -68,6 +86,7 @@ export const chatSlice = createSlice({
         .addCase(openCreateConversation.fulfilled, (state, action)=>{
             state.status = "succeeded"
             state.activeConversation = action.payload
+            state.files = []
         })
         .addCase(openCreateConversation.rejected, (state, action)=>{
             state.status = "failed"
@@ -183,6 +202,6 @@ export const sendMessages = createAsyncThunk("messages/send",async (values:any, 
     }
 })
 
-export const { setActiveConversation, updateMessageAndConversations } = chatSlice.actions
+export const { setActiveConversation, updateMessageAndConversations, addFiles, clearFiles, removeFileFromFiles } = chatSlice.actions
 export const selectChat = (state: RootState) => state.chat
 export default chatSlice.reducer

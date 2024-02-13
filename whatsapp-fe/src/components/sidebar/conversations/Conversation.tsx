@@ -27,7 +27,7 @@ const Conversation = ({ convo, socket, online, typing }: Props) => {
         let newConvo = await dispatch(openCreateConversation(value))
         newConvo.payload._id && socket.emit("join conversation", newConvo.payload._id)
     }
-    console.log(typing, convo._id)
+    
     return (
         <li
             onClick={openConversation}
