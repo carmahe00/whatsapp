@@ -1,11 +1,13 @@
 import { useAppSelector } from "../../../app/store";
 import { selectChat } from "../../../features/chatSlice";
-import { DotsIcon, SearchLargeIcon } from "../../../svg";
+import { CallIcon, DotsIcon, SearchLargeIcon } from "../../../svg";
+import VideoCallIcon from "../../../svg/VideoCall";
 import { capitalize } from '../../../utils/string';
-interface Props{
-    online:boolean
+interface Props {
+    online: boolean
+    callUser: () => void
 }
-const ChatHeader = ({online}:Props) => {
+const ChatHeader = ({ online, callUser }: Props) => {
     const { activeConversation } = useAppSelector(rootState => selectChat(rootState));
     return (
         <div className="h-[59px] dark:bg-dark_bg_2 flex items-center p16 select-none" >
@@ -33,6 +35,16 @@ const ChatHeader = ({online}:Props) => {
                 </div>
                 {/* Right */}
                 <ul className="flex items-center gap-x-2.5">
+                    <li onClick={callUser}>
+                        <button className="btn">
+                            <VideoCallIcon />
+                        </button>
+                    </li>
+                    <li>
+                        <button className="btn  flex justify-center items-center p-2 -rotate-[35deg]">
+                            <CallIcon className="dark:fill-dark_svg_1 scale-75 " />
+                        </button>
+                    </li>
                     <li>
                         <button className="btn" >
                             <SearchLargeIcon className="dark:fill-dark_svg_1" />

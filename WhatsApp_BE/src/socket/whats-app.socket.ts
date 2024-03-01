@@ -11,7 +11,7 @@ class WhatsAppSocket {
     socketEvents() {
         // On connection
         this.io.on('connection', (socket) => {
-            console.log("Socket io connected successfully")
+
             socket.on("sendMesssages", (msg) => {
                 this.io.emit("receiveMessage", msg)
             })
@@ -24,6 +24,8 @@ class WhatsAppSocket {
                 }
                 //send online users to frontend
                 this.io.emit("get-online-users", this.onlineUsers) // send socket all clients
+                // send socket id
+                this.io.emit('setup socket', socket.id)
             })
 
             // user disconnected
@@ -47,14 +49,35 @@ class WhatsAppSocket {
             })
 
             //typing
-            socket.on("typing", conversation =>{
+            socket.on("typing", conversation => {
                 socket.in(conversation).emit("typing", conversation)
             })
 
-            socket.on("stop typing", conversation =>{
+            socket.on("stop typing", conversation => {
                 socket.in(conversation).emit("stop typing")
-            })  
+            })
+            // call
+            // call user
+            socket.on("call user", (data) => {
+                console.log(data)
+                let userId = data.userToCall
+                let userSocketId = this.onlineUsers.find(user => user.userId === userId)
+                this.io.to(userSocketId.socketId).emit("call user", {
+                    signal: data.signal,
+                    from: data.from,
+                    name: data.name,
+                    picture: data.picture
+                })
+            })
 
+            // answer call
+            socket.on("answer call", data =>{
+                this.io.to(data.to).emit("call accepted", data.signal)
+            })
+
+            socket.on("end call", id =>{
+                this.io.to(id).emit("end call")
+            })
         });
     }
 }

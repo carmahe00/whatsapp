@@ -14,8 +14,9 @@ interface Props {
     userId: string;
   }[]
   typing?: string
+  callUser:() => void
 }
-const ChatContainer = ({ onlineUsers, typing }: Props) => {
+const ChatContainer = ({ onlineUsers, typing, callUser }: Props) => {
   const dispatch = useAppDispatch()
   // Memoize the dispatch function
   const memoizedDispatch = useCallback(dispatch, [dispatch])
@@ -35,7 +36,7 @@ const ChatContainer = ({ onlineUsers, typing }: Props) => {
       {/* Container */}
 
       {/* Chat Header */}
-      <ChatHeader online={checkOnlineStatus(onlineUsers, user, activeConversation.users)} />
+      <ChatHeader callUser={callUser} online={checkOnlineStatus(onlineUsers, user, activeConversation.users)} />
       {
         files.length > 0 ?
           <FilesPreview /> :
