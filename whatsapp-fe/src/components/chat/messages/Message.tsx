@@ -20,7 +20,7 @@ const Message = ({ message, me }: Props) => {
           <div className="absolute top-0.5 left-[-37px]">
             <img
               src={message.sender.picture}
-              alt=""
+              alt="who send"
               className="w-8 h-8 rounded-full"
             />
           </div>

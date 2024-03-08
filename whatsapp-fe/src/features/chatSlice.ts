@@ -146,8 +146,26 @@ export const getConversation = createAsyncThunk("conversation/all",async (token:
 
 export const openCreateConversation = createAsyncThunk("conversation/open_create",async (values:any, { rejectWithValue }) => {
     try {
-        const {acces_token, receiver_id} = values
-        const { data } = await axios.post(CONVERSATION_ENDPOINT, {receiver_id},{
+        const {acces_token, receiver_id, isGroup} = values
+        const { data } = await axios.post(CONVERSATION_ENDPOINT, {receiver_id, isGroup},{
+            headers:{
+                Authorization: `Bearer ${acces_token}`
+            }
+        })
+        return data
+    } catch (error) {
+        const err = error as AxiosError<any>
+        if (err.response && typeof err.response.data.error.message)
+            return rejectWithValue(err.response.data.error.message as string)
+        else if (err.response)
+            return rejectWithValue(err.response.data.error)
+    }
+})
+
+export const createGroupConversation = createAsyncThunk("conversation/open_create_group",async (values:any, { rejectWithValue }) => {
+    try {
+        const {acces_token, name, users} = values
+        const { data } = await axios.post(`${CONVERSATION_ENDPOINT}/group`, {users, name},{
             headers:{
                 Authorization: `Bearer ${acces_token}`
             }

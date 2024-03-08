@@ -7,28 +7,28 @@ import Conversation from './Conversation'
 
 interface Props {
   onlineUsers: {
-      socketId: string;
-      userId: string;
+    socketId: string;
+    userId: string;
   }[]
-  typing?:string
+  typing?: string
 }
-const Conversations = ({onlineUsers, typing}:Props) => {
-    const { conversations, activeConversation } = useAppSelector(selectChat)
-    const { user } = useAppSelector(selectUser)
+const Conversations = ({ onlineUsers, typing }: Props) => {
+  const { user } = useAppSelector(selectUser)
+  const { conversations, activeConversation } = useAppSelector(selectChat)
   return (
     <div className="convos scrollbar">
-        <ul>
+      <ul>
 
         {
-            conversations.length && conversations
-            .filter(c =>c.latestMessage || activeConversation._id === c._id)
-            .map((convo, i)=>{
+          conversations.length && conversations
+            .filter(c => c.latestMessage || activeConversation._id === c._id || c.isGroup === true)
+            .map((convo, i) => {
               let checkout = checkOnlineStatus(onlineUsers, user, convo.users)
-              return <Conversation convo={convo} key={i} online={checkout ? true : false} typing={typing} />
+              return <Conversation convo={convo} key={i} online={!convo.isGroup && checkout ? true : false} typing={typing} />
             }
             )
         }
-        </ul>
+      </ul>
     </div>
   )
 }

@@ -230,7 +230,7 @@
 }
 
 .createGroupAnimation {
-  animation: cga 0.5s;
+  animation: cga 1s;
 }
 @keyframes cga {
   0% {

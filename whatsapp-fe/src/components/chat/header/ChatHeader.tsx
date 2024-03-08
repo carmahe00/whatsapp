@@ -24,7 +24,7 @@ const ChatHeader = ({ online, callUser }: Props) => {
                     </button>
                     <div className="flex flex-col">
 
-                        <h1 className="dark:text-white text-md">
+                        <h1 className="dark:text-white text-md font-bold">
                             {activeConversation.name.search(" ") === -1 ?
                                 capitalize(activeConversation.name) :
                                 capitalize(activeConversation.name.split(" ")[0])

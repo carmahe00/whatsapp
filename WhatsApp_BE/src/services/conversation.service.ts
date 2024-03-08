@@ -7,25 +7,39 @@ interface Props {
   isGroup: boolean;
   users: any[];
 }
-export const doesExistConversation = async (sender_id: String, receiver_id: string) => {
+export const doesExistConversation = async (sender_id: String, receiver_id: string, isGroup?: boolean| string ) => {
   try {
-    const convos = await ConversationModel.findOne({
-      isGroup: false,
-      $and: [
-        { users: { $elemMatch: { $eq: sender_id } } },
-        { users: { $elemMatch: { $eq: receiver_id } } }
-      ]
-    })
-      .populate('users', '-password')
-      .populate('latestMessage');
-
-
-    // populate message model
-    const convo = await ConversationModel.populate(convos, {
-      path: "latestMessage",
-      select: "name email picture status"
-    })
-    return convo
+    if(!isGroup){
+      const convos = await ConversationModel.findOne({
+        isGroup: false,
+        $and: [
+          { users: { $elemMatch: { $eq: sender_id } } },
+          { users: { $elemMatch: { $eq: receiver_id } } }
+        ]
+      })
+        .populate('users', '-password')
+        .populate('latestMessage');
+  
+  
+      // populate message model
+      const convo = await ConversationModel.populate(convos, {
+        path: "latestMessage",
+        select: "name email picture status"
+      })
+      return convo
+    }else{
+      let convo = await ConversationModel.findById(isGroup)
+        .populate('users admin', '-password')
+        .populate('latestMessage');
+  
+  
+      // populate message model
+      convo = await ConversationModel.populate(convo, {
+        path: "latestMessage",
+        select: "name email picture status"
+      })
+      return convo
+    }
   } catch (error) {
     logging.error(error)
     throw createHttpError.InternalServerError("Internal Server Error");
@@ -42,7 +56,7 @@ export const populateConversation = async (data: Types.ObjectId, fieldToPopulate
   const populateConvo = await ConversationModel.findOne({
     _id: data
   })
-    .populate([{ path: fieldToPopulate, strictPopulate: false, select: "-password" }])
+    .populate([{ path: fieldToPopulate, strictPopulate: false, select: fieldToRemove }])
   if (!populateConvo) throw createHttpError.BadRequest("Something went wrong...")
   return populateConvo
 }
